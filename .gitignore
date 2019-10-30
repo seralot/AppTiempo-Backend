@@ -1,0 +1,35 @@
+.env
+.envrc
+junit.xml
+.sass-cache
+db.sqlite3
+
+# Editors
+.vscode
+.settings
+tags
+
+# Java
+.classpath
+.project
+
+# NodeJS
+.node-version
+node_modules
+
+# OSX
+.DS_Store
+
+# PHP
+.php-version
+
+# Python
+.coverage
+coverage.xml
+*.egg-info
+.tox
+__pycache__
+.cache
+.python-version
+.venv
+.pytest_cache
