@@ -1,3 +1,5 @@
+import datetime as dt 
+
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import View
@@ -7,6 +9,7 @@ import json
 import requests
 
 from api.services import getapi
+from api.handler import Handler
 from db import models
 
 # Create your views here.
@@ -17,8 +20,9 @@ class MyView(View):
         city = request.GET['city']
         r=getapi(city)
         data = json.loads(r)
-        # comprobar si exite la ciudad en la DB, sino existe se crea
-        qs = models.City.objects.filter(name=data["city"]["name"])
-        if not len(qs):
-            models.City.objects.create(name=data["city"]["name"])
+
+    # Instanciamos la clase handler
+        handler = Handler(data)
+        handler.main()
+
         return HttpResponse(r)
