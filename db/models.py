@@ -13,14 +13,19 @@ class City(models.Model):
         verbose_name = "City"
         verbose_name_plural = "Cities"
 
+    def to_dict(self):
+        return {
+            "name": self.name
+        }
+
 
 class Day(models.Model):
-    day= models.DateTimeField("Dia", blank=False, null=False)
+    date= models.DateField("Dia", blank=False, null=False)
     city=models.ForeignKey(City, models.CASCADE, null=False, blank=False)
     update_at=models.DateTimeField("Updated at", null=True, blank=True)
 
     def __str__(self):
-        return f"{self.city.name} {self.day}"
+        return f"{self.city.name} {self.date}"
 
 # Los registros de tiempo de cada día
 class WeatherRecord(models.Model):

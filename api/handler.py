@@ -25,7 +25,7 @@ class Handler:
     # Comprueba si existe el día en la DB sino lo crea
     def checkDay(self, fecha, city):
         day, created = models.Day.objects.get_or_create(
-            day=fecha,
+            date=fecha,
             city=city,
             defaults={'update_at': now()}
         )
@@ -34,7 +34,7 @@ class Handler:
     # Actualiza el update del día
     def update_day(self, fecha, city):
         dayupdate, created = models.Day.objects.update_or_create(
-            day=fecha,
+            date=fecha,
             city=city,
             defaults={'update_at': now()}
         )
@@ -80,4 +80,14 @@ class Handler:
         else:
             # comprobar si existe el tiempo en esa hora en la DB, sino existe se crea
             self.check_weather_records(stamp, day, item)
-            
+
+    # Comprueba si la ciudad o el día ya se encuentran en la DB
+    # Si no la encuentra la busca en la API
+    def check_db(self, city, day: dt.datetime):
+        qs = models.City.objects.filter(name=city).exists()
+        
+        if not qs:
+            return False
+    
+        cityDB = models.City.objects.get(name=city)
+        return models.Day.objects.filter(date=day, city=cityDB).exists()
