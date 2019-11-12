@@ -26,6 +26,13 @@ class Day(models.Model):
 
     def __str__(self):
         return f"{self.city.name} {self.date}"
+    
+    def to_dict(self):
+        return {
+            "date": self.date,
+            "city": self.city,
+            "update_at": self.update_at
+        }
 
 # Los registros de tiempo de cada día
 class WeatherRecord(models.Model):
@@ -39,4 +46,17 @@ class WeatherRecord(models.Model):
     day = models.ForeignKey(Day, models.CASCADE, null=False, blank=False)
 
     def __str__(self):
-        return f"{self.day.city} {self.day.day} {self.datetime}"
+        return f"{self.day.city} {self.day.date} {self.datetime}"
+    
+    def to_dict(self):
+        return {
+            "datetime": self.datetime.strftime("%Y-%m-%d %H:%M:%S"),
+            "temp_max": float(self.temp_max),
+            "temp_min": float(self.temp_min),
+            "humidity": self.humidity,
+            "wind": float(self.wind),
+            "description": self.description,
+            "icon": self.icon,
+            "day": self.day.date.strftime("%Y-%m-%d"),
+            "city": self.day.city.name
+        }
