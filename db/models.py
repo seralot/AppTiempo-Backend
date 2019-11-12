@@ -39,4 +39,4 @@ class WeatherRecord(models.Model):
     day = models.ForeignKey(Day, models.CASCADE, null=False, blank=False)
 
     def __str__(self):
-        return f"{self.day.city} {self.day.day} {self.datetime}"
+        return f"{self.day.city} {self.day.date} {self.datetime}"
