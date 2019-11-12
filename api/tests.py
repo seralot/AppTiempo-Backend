@@ -51,13 +51,31 @@ class CheckDatabaseTestCase(TestCase):
         self.assertFalse(result)
 
 
+class CheckWeatherRecordsTestCase(TestCase):
+    def data(self, city):
+        r=getapi(city)
+        data = json.loads(r)
+        handler = Handler(data)
+        handler.main()
+
+        return handler
+
+    def test_exists_weather_records(self):
+        handler = self.data('Vigo')
+        fecha = pendulum.from_format('2019-11-13', "YYYY-MM-DD")
+        c = models.City.objects.get(name='Vigo')
+        d = models.Day.objects.get(date=fecha , city=c)
+        
+        result = handler.get_weather_records(c, d.date)
+        self.assertTrue(result)
+
 
     
-class TestMyView(TestCase):
-    def test_my_view(self):
-        response = self.client.get("/api/data/", {'city': 'vigo'})
+# class TestMyView(TestCase):
+#     def test_my_view(self):
+#         response = self.client.get("/api/data/", {'city': 'vigo'})
 
-        assert 200 == response.status_code
-        data = json.loads(response.content)
-        assert "Vigo" == data["city"]
+#         assert 200 == response.status_code
+#         data = json.loads(response.content)
+#         assert "Vigo" == data["city"]
         

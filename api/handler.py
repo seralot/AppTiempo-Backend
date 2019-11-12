@@ -1,4 +1,5 @@
 import datetime as dt 
+from typing import List
 
 from django.utils.timezone import now
 
@@ -91,3 +92,21 @@ class Handler:
     
         cityDB = models.City.objects.get(name=city)
         return models.Day.objects.filter(date=day, city=cityDB).exists()
+
+    def get_weather_records(self, city, day: dt.datetime) -> List[models.WeatherRecord]:
+        qc = models.City.objects.get(name=city)
+        qs = models.Day.objects.filter(date=day, city=qc).exists()
+
+        if not qs:
+            return False
+        
+        d = models.Day.objects.get(date=day, city=qc)
+
+        print(">>>>>>>>>>>>>>>>>>>>>",[e.temp_max for e in models.WeatherRecord.objects.filter(day = d)] )
+        # return models.WeatherRecord.objects.filter(day = d)
+        data = []
+
+        for e in models.WeatherRecord.objects.filter(day = d):
+            data.append(e.to_dict())
+
+        return data
