@@ -21,17 +21,27 @@ class MyView(View):
         day = self._sanitize_day(request.GET.get('day', None))
 
 
-        r=getapi(city)
-        data = json.loads(r)
+        
         # fechaAPI = data["list"][0]["dt_txt"].split()
         
 
         # TODO: convertir el date de string a clase python    
-        handler = Handler(data)
-        handler.main()
-        handler.check_db(city.capitalize(), day)
-        records = handler.get_weather_records(city.capitalize(), day)
-        return HttpResponse(json.dumps(records))
+        
+        handler = Handler()
+        
+        if(handler.check_db(city.capitalize(), day)):
+             records = handler.get_weather_records(city.capitalize(), day)
+             return HttpResponse(json.dumps(records))
+        else:
+            r=getapi(city)
+            data = json.loads(r)
+            handler.main(data)
+            records = handler.get_weather_records(city.capitalize(), day)
+            print("SDFSKLMSDFKJDFJKFGHJVGFGFHGFKJGFBKJO API")
+            return HttpResponse(json.dumps(records))
+            
+            
+        
 
 
     def _sanitize_day(self, day = None):
