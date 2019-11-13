@@ -7,8 +7,8 @@ from db import models
 
 class Handler:
 
-    def __init__(self, data):
-        self.data = data
+    # def __init__(self, data):
+    #     self.data = data
 
     # Comprueba si existe la ciudad en la DB si no la crea
     def checkCity(self, data):
@@ -16,9 +16,9 @@ class Handler:
         return city
 
     # Comprueba si existe el dia en esa ciudad en la DB, sino existe lo crea
-    def main(self):
-        city = self.checkCity(self.data)
-        for item in self.data["list"]:
+    def main(self, data):
+        city = self.checkCity(data)
+        for item in data["list"]:
             fecha = item["dt_txt"].split()
             day = self.checkDay(fecha[0], city)
             self.update(city, day, fecha[0], item)

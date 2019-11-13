@@ -24,8 +24,8 @@ class CheckDatabaseTestCase(TestCase):
         r=getapi(city)
         data = json.loads(r)
         fecha = data["list"][16]["dt_txt"].split()
-        handler = Handler(data)
-        handler.main()
+        handler = Handler()
+        handler.main(data)
 
         return handler, fecha
 
@@ -55,8 +55,8 @@ class CheckWeatherRecordsTestCase(TestCase):
     def data(self, city):
         r=getapi(city)
         data = json.loads(r)
-        handler = Handler(data)
-        handler.main()
+        handler = Handler()
+        handler.main(data)
 
         return handler
 
@@ -71,11 +71,11 @@ class CheckWeatherRecordsTestCase(TestCase):
 
 
     
-# class TestMyView(TestCase):
-#     def test_my_view(self):
-#         response = self.client.get("/api/data/", {'city': 'vigo'})
+class TestMyView(TestCase):
+    def test_my_view(self):
+        response = self.client.get("/api/data/", {'city': 'barcelona'})
 
-#         assert 200 == response.status_code
-#         data = json.loads(response.content)
-#         assert "Vigo" == data["city"]
+        assert 200 == response.status_code
+        data = json.loads(response.content)
+        assert "Barcelona" == data[0]["city"]
         
