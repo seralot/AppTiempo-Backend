@@ -25,14 +25,15 @@ class MyView(View):
 
         
         handler = Handler()
-
-        modelCity = models.City.objects.get(name = city.capitalize())
-        modelDay = models.Day.objects.get(date=day, city=modelCity)
         
-        if(handler.check_db(city.capitalize(), day) or (modelDay.update_at.hour - now().hour)<=2):
-            records = handler.get_weather_records(city.capitalize(), day)
-            self._update_day(day, modelCity)
-            return HttpResponse(json.dumps(records))
+        if(handler.check_db(city.capitalize(), day)):
+            modelCity = models.City.objects.get(name = city.capitalize())
+            modelDay = models.Day.objects.get(date=day, city=modelCity)
+            
+            if((modelDay.update_at.hour - now().hour)<=2):
+                records = handler.get_weather_records(city.capitalize(), day)
+                self._update_day(day, modelCity)
+                return HttpResponse(json.dumps(records))
         else:
             r=getapi(city)
             data = json.loads(r)
