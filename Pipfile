@@ -12,6 +12,7 @@ django-cors-headers = "*"
 requests = "*"
 pendulum = "*"
 gunicorn = "*"
+django-heroku = "*"
 
 [requires]
 python_version = "3.7"
