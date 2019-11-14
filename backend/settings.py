@@ -132,6 +132,7 @@ CORS_ORIGIN_ALLOW_ALL = False
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:8080',
+    'https://safe-ravine-78541.herokuapp.com',
 )
 
 CORS_ALLOW_HEADERS = [
